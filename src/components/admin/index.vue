@@ -23,7 +23,7 @@
               内容管理
             </template>
             <MenuItem name="articleList">文章管理</MenuItem>
-            <MenuItem name="articlePublish">发布文章</MenuItem>
+            <MenuItem name="articlePublish/create">发布文章</MenuItem>
           </Submenu>
         </Menu>
       </i-col>

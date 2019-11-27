@@ -16,12 +16,16 @@
     </Row>
     <br>
     <Row>
-      <Table stripe :columns="this.columns" :data="this.pageVo.data">
-        <template slot-scope="{ row, index }" slot="action">
+      <Table border stripe :columns="this.columns" :data="this.pageVo.data">
+        <template slot-scope="{ row }" slot="action">
           <Button type="primary" size="small" style="margin-right: 5px" @click="show(row)">查看</Button>
           <Button type="error" size="small" @click="edit(row)">编辑</Button>
         </template>
       </Table>
+    </Row>
+    <br>
+    <Row>
+      <Page :total="this.pageVo.total" show-sizer :page-size-opts="[5,10,20]" @on-change="changePage" @on-page-size-change="changeSize"/>
     </Row>
   </div>
 </template>
@@ -33,17 +37,31 @@ export default {
   },
   methods:{
     init(){
+        this.loadData(1);
+    },
+    changeSize(size){
+        this.pageVo.pageSize = size;
+        this.pageVo.page = 1;
+        this.loadData();
+    },
+    changePage(page){
+        this.pageVo.page = page;
         this.loadData();
     },
     loadData(){
-        this.querys.page = this.pageVo.page;
-        this.querys.pageSize = this.pageVo.pageSize;
-        this.$http.get("/api/article/page",{params:this.querys}).then((res)=>{
-            this.pageVo = res.data;
+        let queryParams = Object.assign(this.querys,{
+            page:this.pageVo.page,
+            pageSize:this.pageVo.pageSize
+        });
+        this.request.get({
+            url:"/api/article/page",
+            params:queryParams
+        }).then((response)=>{
+            this.pageVo = response.data;
         });
     },
     edit(row){
-        alert(row.id);
+        this.$router.push("/admin/articlePublish/"+row.id);
     },
     show(row){
         alert(row.id);
@@ -53,9 +71,7 @@ export default {
     return {
         querys:{
             kw:'',
-            cateCode:null,
-            page:1,
-            pageSize:10
+            cateCode:null
         },
         columns:[
             {

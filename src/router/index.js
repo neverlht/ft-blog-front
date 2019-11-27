@@ -1,10 +1,4 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
-Vue.use(Router)
-
-export default new Router({
-  routes: [
+ const routers = [
     {
       path: '/',
       component: (resolve) => require(['@/components/Index.vue'], resolve),
@@ -25,11 +19,11 @@ export default new Router({
       children:[
         {
           path:'/',
-          redirect: '/admin/articlePublish'
+          redirect: '/admin/articleList'
         },
         {
           //文章发布页
-          path:'/admin/articlePublish',
+          path:'/admin/articlePublish/:id',
           component: (resolve) => require(['@/components/admin/article/publish.vue'],resolve)
         },
         {
@@ -39,5 +33,5 @@ export default new Router({
         }
       ]
     }
-  ]
-})
+  ];
+export default routers;

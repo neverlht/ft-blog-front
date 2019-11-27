@@ -19,7 +19,7 @@
       <FormItem label="分类">
         <i-input v-model="article.cateCode"></i-input>
       </FormItem>
-      <mavon-editor ref="mdEditor" class="content-editor" :value="article.textMd" v-model="article.content" @imgAdd="imgAddByServer" @save="save"/>
+      <mavon-editor ref="mdEditor" class="content-editor" :value="article.textMd" @imgAdd="imgAddByServer" @save="save"/>
       <div style="margin-top: 10px;text-align: right">
         <Button type="success" @click="publish">发布</Button>
       </div>
@@ -35,6 +35,7 @@ export default {
       img_file:{},
       currentTag:'',
       article:{
+        id:null,
         text:"",
         textMd:"",
         title:'',
@@ -43,7 +44,20 @@ export default {
       }
     }
   },
+  created(){
+    if(this.$route.params.id!='create'){
+        this.article.id = this.$route.params.id;
+        this.loadData();
+    }
+  },
   methods:{
+    loadData(){
+        this.request.get({
+            url:'/api/article/info/'+this.article.id
+        }).then((res)=>{
+            this.article = res.data;
+        });
+    },
     delTag(index){
       this.article.tags.splice(index,1);
     },
@@ -51,7 +65,9 @@ export default {
         this.article.tags.push(this.currentTag);
     },
     imgAddByServer(pos,$file){
-        this.$http.get('/api/upload/signature').then((res)=>{
+        this.request.get({
+            url:'/api/upload/signature'
+        }).then((res)=>{
             Upload.uploadFile($file,res.data,(url)=>{
                 this.$refs.mdEditor.$img2Url(pos, url);
             });
@@ -63,7 +79,10 @@ export default {
     save(value,render){
         this.article.text = render;
         this.article.textMd = value;
-        this.$http.post("/api/article/save",this.article).then(()=>{
+        this.request.post({
+            url:"/api/article/save",
+            data:this.article
+        }).then((res)=>{
             this.$Message.success("保存成功");
             this.$router.push("/admin/articleList");
         });
