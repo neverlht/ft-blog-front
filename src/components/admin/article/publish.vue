@@ -53,7 +53,7 @@ export default {
   methods:{
     loadData(){
         this.request.get({
-            url:'/api/article/info/'+this.article.id
+            url:'/api/article/base/info/'+this.article.id
         }).then((res)=>{
             this.article = res.data;
         });

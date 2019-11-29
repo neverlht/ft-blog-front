@@ -5,21 +5,14 @@
 <template>
   <div>
     <Row>
-      <i-input v-model="querys.kw">
-        <Select v-model="querys.cateCode" slot="prepend" style="width: 80px">
-          <Option value="">全部</Option>
-          <Option value="java">java</Option>
-          <Option value="cms">cms</Option>
-        </Select>
-        <Button slot="append" icon="ios-search" @click="loadData"></Button>
-      </i-input>
+        <Button type="success">新增</Button>
     </Row>
     <br>
     <Row>
       <Table border stripe :columns="this.columns" :data="this.pageVo.data">
         <template slot-scope="{ row }" slot="action">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="show(row)">查看</Button>
-          <Button type="error" size="small" @click="edit(row)">编辑</Button>
+          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">修改</Button>
+          <Button type="error" size="small" @click="del(row)">删除</Button>
         </template>
       </Table>
     </Row>
@@ -49,50 +42,44 @@ export default {
         this.loadData();
     },
     loadData(){
-        let queryParams = Object.assign(this.querys,{
+        let queryParams = Object.assign({},{
             page:this.pageVo.page,
             pageSize:this.pageVo.pageSize
         });
         this.request.get({
-            url:"/api/article/base/page",
+            url:"/api/category/page",
             params:queryParams
         }).then((response)=>{
             this.pageVo = response.data;
         });
     },
     edit(row){
-        this.$router.push("/admin/articlePublish/"+row.id);
     },
-    show(row){
-        alert(row.id);
+    del(row){
     }
   },
   data () {
     return {
-        querys:{
-            kw:'',
-            cateCode:null
-        },
         columns:[
             {
-                title: '标题',
-                key:'title'
+                title: '名称',
+                key:'name'
              },
             {
-                title: '分类',
-                key: 'cateName'
+                title: '编码',
+                key: 'code'
             },
             {
-                title: '摘要',
-                key: 'summary'
+                title: '最新修改时间',
+                key: 'updateTime'
             },
             {
-                title: '点赞数',
-                key: 'zan'
+                title: '备注',
+                key: 'remark'
             },
             {
-                title: '访问量',
-                key: 'rate'
+                title: '排序',
+                key: 'sort'
             },
             {
                 title: '操作',

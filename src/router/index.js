@@ -30,6 +30,11 @@
           //文章列表管理
           path:'/admin/articleList',
           component: (resolve) => require(['@/components/admin/article/list.vue'],resolve)
+        },
+        {
+            //分类管理
+            path:'/admin/categoryList',
+            component: (resolve) => require(['@/components/admin/category/list.vue'],resolve)
         }
       ]
     }

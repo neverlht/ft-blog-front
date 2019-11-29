@@ -24,6 +24,7 @@
             </template>
             <MenuItem name="articleList">文章管理</MenuItem>
             <MenuItem name="articlePublish/create">发布文章</MenuItem>
+            <MenuItem name="articlePublish/create">分类管理</MenuItem>
           </Submenu>
         </Menu>
       </i-col>
