@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import Upload from '@/utils/upload'
+  import Upload from '@/common/upload'
 export default {
   data () {
     return {

@@ -3,6 +3,7 @@ import ViewUI from 'view-design'
 import VueRouter from 'vue-router'
 import Routers from '../router'
 import request from './request.js';
+import Utils from './utils.js';
 import 'view-design/dist/styles/iview.css'
 //增加markdown编辑器功能
 import mavonEditor from 'mavon-editor'
@@ -17,7 +18,7 @@ Vue.config.productionTip = false;
 Vue._userToken = "";
 
 Vue.prototype.request = request;
-
+Vue.prototype.$Utils = Utils;
 // 路由配置
 const RouterConfig = {
   mode: 'hash',

@@ -5,7 +5,7 @@
 <template>
   <div>
     <Row>
-        <Button type="success">新增</Button>
+        <Button type="success" @click="add">新增</Button>
     </Row>
     <br>
     <Row>
@@ -20,17 +20,26 @@
     <Row>
       <Page :total="this.pageVo.total" show-sizer :page-size-opts="[5,10,20]" @on-change="changePage" @on-page-size-change="changeSize"/>
     </Row>
+
+    <Drawer title="编辑分类" :closable="true" v-model="edit">
+      <CategoryCard></CategoryCard>
+    </Drawer>
   </div>
 </template>
 
 <script>
+import CategoryCard from './card.vue';
 export default {
   created(){
       this.init();
   },
+  components:{CategoryCard},
   methods:{
     init(){
         this.loadData(1);
+    },
+    add(){
+      this.edit = true;
     },
     changeSize(size){
         this.pageVo.pageSize = size;
@@ -47,7 +56,7 @@ export default {
             pageSize:this.pageVo.pageSize
         });
         this.request.get({
-            url:"/api/category/page",
+            url:"/api/category/base/page",
             params:queryParams
         }).then((response)=>{
             this.pageVo = response.data;
@@ -59,7 +68,9 @@ export default {
     }
   },
   data () {
+    let vm = this;
     return {
+        edit:false,
         columns:[
             {
                 title: '名称',
@@ -71,7 +82,11 @@ export default {
             },
             {
                 title: '最新修改时间',
-                key: 'updateTime'
+                key: 'updateTime',
+                render: (h, params) => {
+                    let date = vm.$Utils.DateFormat(params.row.updateTime,'YYYY-MM-DD HH:mm:ss');
+                    return h("div",date);
+                }
             },
             {
                 title: '备注',
