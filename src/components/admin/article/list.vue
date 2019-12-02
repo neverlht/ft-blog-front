@@ -8,8 +8,7 @@
       <i-input v-model="querys.kw">
         <Select v-model="querys.cateCode" slot="prepend" style="width: 80px">
           <Option value="">全部</Option>
-          <Option value="java">java</Option>
-          <Option value="cms">cms</Option>
+          <Option v-for="category in categoryList" :value="category.code">{{category.name}}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="loadData"></Button>
       </i-input>
@@ -38,6 +37,7 @@ export default {
   methods:{
     init(){
         this.loadData(1);
+        this.loadCategory();
     },
     changeSize(size){
         this.pageVo.pageSize = size;
@@ -48,13 +48,20 @@ export default {
         this.pageVo.page = page;
         this.loadData();
     },
+    loadCategory(){
+        this.request.get({
+            url:"/api/category/base/list"
+        }).then((response)=>{
+            this.categoryList = response.data;
+        });
+    },
     loadData(){
         let queryParams = Object.assign(this.querys,{
             page:this.pageVo.page,
             pageSize:this.pageVo.pageSize
         });
         this.request.get({
-            url:"/api/article/base/page",
+            url:"/api/article/page",
             params:queryParams
         }).then((response)=>{
             this.pageVo = response.data;
@@ -69,6 +76,7 @@ export default {
   },
   data () {
     return {
+        categoryList:[],
         querys:{
             kw:'',
             cateCode:null

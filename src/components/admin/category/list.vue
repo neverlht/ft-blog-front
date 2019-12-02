@@ -21,8 +21,8 @@
       <Page :total="this.pageVo.total" show-sizer :page-size-opts="[5,10,20]" @on-change="changePage" @on-page-size-change="changeSize"/>
     </Row>
 
-    <Drawer title="编辑分类" :closable="true" v-model="edit">
-      <CategoryCard></CategoryCard>
+    <Drawer width="400" title="编辑分类" :closable="true" v-model="openCard">
+      <CategoryCard ref="cateRef" :close="close"></CategoryCard>
     </Drawer>
   </div>
 </template>
@@ -39,7 +39,7 @@ export default {
         this.loadData(1);
     },
     add(){
-      this.edit = true;
+      this.openCard = true;
     },
     changeSize(size){
         this.pageVo.pageSize = size;
@@ -63,14 +63,36 @@ export default {
         });
     },
     edit(row){
+        this.openCard = true;
+        this.$refs['cateRef'].loadData(row.id);
     },
     del(row){
+        this.$Modal.confirm({
+            title: '提示',
+            content: '确认删除【'+row.name+'】分类吗',
+            onOk: () => {
+                this.request.post({
+                    url:"/api/category/base/delete",
+                    params:{id:row.id}
+                }).then(()=>{
+                    this.$Message.success("删除成功");
+                    this.loadData();
+                });
+            },
+            onCancel: () => {
+            }
+        });
+
+    },
+    close(){
+        this.openCard = false;
+        this.loadData();
     }
   },
   data () {
     let vm = this;
     return {
-        edit:false,
+        openCard:false,
         columns:[
             {
                 title: '名称',
