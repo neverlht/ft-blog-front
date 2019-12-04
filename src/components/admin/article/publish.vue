@@ -1,4 +1,8 @@
 <style scoped>
+  .content-editor{
+    z-index: 899;
+    height: 600px;
+  }
 </style>
 
 
@@ -17,7 +21,9 @@
         <Tag v-for="(tag,index) in article.tags" :key="index" :name="tag" closable @on-close="delTag(index)">{{tag}}</Tag>
       </div>
       <FormItem label="分类">
-        <i-input v-model="article.cateCode"></i-input>
+        <Select v-model="article.cateCode">
+          <Option v-for="category in categoryList" :value="category.code">{{category.name}}</Option>
+        </Select>
       </FormItem>
       <mavon-editor ref="mdEditor" class="content-editor" :value="article.textMd" @imgAdd="imgAddByServer" @save="save"/>
       <div style="margin-top: 10px;text-align: right">
@@ -41,16 +47,25 @@ export default {
         title:'',
         tags:[],
         cateCode:''
-      }
+      },
+      categoryList:[]
     }
   },
   created(){
+    this.loadCategory();
     if(this.$route.params.id!='create'){
         this.article.id = this.$route.params.id;
         this.loadData();
     }
   },
   methods:{
+    loadCategory(){
+        this.request.get({
+            url:"/api/category/base/list"
+        }).then((response)=>{
+            this.categoryList = response.data;
+        });
+    },
     loadData(){
         this.request.get({
             url:'/api/article/base/info/'+this.article.id
