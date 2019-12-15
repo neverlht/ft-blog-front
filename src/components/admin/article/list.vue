@@ -88,7 +88,7 @@ export default {
              },
             {
                 title: '分类',
-                key: 'cateCode'
+                key: 'cateName'
             },
             {
                 title: '摘要',
