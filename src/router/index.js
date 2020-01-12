@@ -5,14 +5,26 @@
       children: [
         {
           path: '/',
-          redirect: '/home'
+          redirect: '/home/index'
         },
         {
-          path: '/home',
+          path: '/home/:code',
           component: (resolve) => require(['@/components/index/home.vue'], resolve)
-        }
+        },
+        {
+            path: '/article/:id',
+            component: (resolve) => require(['@/components/index/article.vue'], resolve)
+        },
+          {
+              path: '/about',
+              component: (resolve) => require(['@/components/index/about.vue'], resolve)
+          }
       ]
     },
+   {
+       path:'/admin/login',
+       component: (resolve) => require(['@/components/admin/login.vue'],resolve)
+   },
     {
       path: '/admin',
       component: (resolve) => require(['@/components/admin/index.vue'], resolve),
@@ -21,6 +33,7 @@
           path:'/',
           redirect: '/admin/articleList'
         },
+
         {
           //文章发布页
           path:'/admin/articlePublish/:id',

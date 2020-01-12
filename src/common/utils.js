@@ -35,7 +35,8 @@ var getCookie = function(name){
 };
 
 var getTokenHeader = function(){
-  return {'Authorization': 'Bearer ' + getCookie("_login_token")};
+  let token = localStorage._login_token;
+  return {'Authorization': 'Bearer ' + token};
 };
 
 export default {

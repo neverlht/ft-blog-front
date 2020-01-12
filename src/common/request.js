@@ -23,7 +23,7 @@ axios.interceptors.response.use(
     }else if(response.data&&(response.data.returnCode ==302||response.data.returnCode ==301)){
         ViewUI.Message.error("用户登录过期，2秒钟后跳转到登录界面……");
       setTimeout(()=>{
-        router.push("/");
+        router.push("/admin/login");
       },2000);
     }else{
       return response;

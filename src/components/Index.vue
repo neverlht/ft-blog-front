@@ -20,7 +20,6 @@
   }
   .header-other{
     flex:1;
-    padding-left: 100px;
     align-items:center;
     text-align: right;
     display: flex;
@@ -32,8 +31,7 @@
     margin-left: 20px;
   }
   .content{
-    padding-top: 80px;
-    margin-left: 50%;
+    padding: 64px;
   }
 
   .time{
@@ -73,13 +71,6 @@
 
   }
 
-  .otherOne-time{
-    margin-left: -170px;
-  }
-
-  .otherOne-content{
-    margin-left: -630px;
-  }
 </style>
 
 
@@ -91,42 +82,36 @@
             <img src="../assets/logo.png">
           </div>
           <div class="header-menu">
-            <Menu mode="horizontal" active-name="1">
-              <MenuItem name="1">
+            <Menu mode="horizontal" active-name="1" @on-select="openTab">
+              <MenuItem name="index">
                 <Icon type="ios-home"></Icon>
                 首页
               </MenuItem>
-              <Submenu name="3">
+              <Submenu name="/category">
                 <template slot="title">
                   <Icon type="ios-list"></Icon>
                   分类
                 </template>
-                <MenuGroup title="技术">
-                  <MenuItem name="3-1">java</MenuItem>
-                  <MenuItem name="3-2">node.js</MenuItem>
-                  <MenuItem name="3-3">前端</MenuItem>
-                </MenuGroup>
-                <MenuGroup title="其他">
-                  <MenuItem name="3-4">随笔</MenuItem>
-                  <MenuItem name="3-5">心情</MenuItem>
-                </MenuGroup>
+                <MenuItem v-for="category in categoryList" :name="category.code">{{category.name}}</MenuItem>
               </Submenu>
-              <MenuItem name="4">
-                <Icon type="ios-heart"></Icon>
-                我的另一半
+              <MenuItem name="../about">
+                <Icon type="md-person"></Icon>
+                关于我
               </MenuItem>
             </Menu>
           </div>
           <div class="header-other">
-            <Input icon="ios-search" style="width: 300px">
-            </Input>
-            <Button ghost shape="circle" size="large" style="color: #19be6b;border-color: #19be6b">登陆</Button>
-            <Button type="success" shape="circle" size="large">注册</Button>
+            <!--<Input icon="ios-search" style="width: 300px">-->
+            <!--</Input>-->
+            <!--<Button ghost shape="circle" size="large" style="color: #19be6b;border-color: #19be6b">登陆</Button>-->
+            <!--<Button type="success" shape="circle" size="large">注册</Button>-->
           </div>
       </div>
     </Affix>
     <div class="content">
-      <router-view/>
+      <i-col span="16" offset="4">
+        <router-view/>
+      </i-col>
     </div>
   </div>
 </template>
@@ -136,8 +121,26 @@ export default {
   name: 'Index',
   data () {
     return {
-      msg: 'lj520'
+      msg: 'lj520',
+      categoryList: []
     }
+  },
+  created(){
+      this.init();
+  },
+
+  methods:{
+      openTab(name){
+          this.$router.push("../home/"+name);
+      },
+      init(){
+          this.request.get({
+              url:'/display/category/list'
+          }).
+          then((res)=>{
+              this.categoryList = res.data;
+          });
+      }
   }
 }
 </script>

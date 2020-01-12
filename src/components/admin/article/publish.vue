@@ -1,7 +1,7 @@
 <style scoped>
   .content-editor{
     z-index: 899;
-    height: 600px;
+    height: 540px;
   }
 </style>
 
@@ -18,7 +18,7 @@
         </i-input>
       </FormItem>
       <div style="margin-bottom: 24px;vertical-align: top;">
-        <Tag v-for="(tag,index) in article.tags" :key="index" :name="tag" closable @on-close="delTag(index)">{{tag}}</Tag>
+        <Tag v-for="(tag,index) in tags" :key="index" :name="tag" closable @on-close="delTag(index)">{{tag}}</Tag>
       </div>
       <FormItem label="分类">
         <Select v-model="article.cateCode">
@@ -45,9 +45,9 @@ export default {
         text:"",
         textMd:"",
         title:'',
-        tags:[],
         cateCode:''
       },
+      tags:[],
       categoryList:[]
     }
   },
@@ -56,6 +56,7 @@ export default {
     if(this.$route.params.id!='create'){
         this.article.id = this.$route.params.id;
         this.loadData();
+        this.loadTagData();
     }
   },
   methods:{
@@ -73,11 +74,19 @@ export default {
             this.article = res.data;
         });
     },
+    loadTagData(){
+        this.request.get({
+            url:'/api/article/tag/'+this.article.id
+        }).then((res)=>{
+            this.tags = res.data.map(t=> t.name);
+        });
+    },
     delTag(index){
-      this.article.tags.splice(index,1);
+      this.tags.splice(index,1);
     },
     addTag(){
-        this.article.tags.push(this.currentTag);
+        this.tags.push(this.currentTag);
+        this.currentTag = "";
     },
     imgAddByServer(pos,$file){
         this.request.get({
@@ -94,6 +103,7 @@ export default {
     save(value,render){
         this.article.text = render;
         this.article.textMd = value;
+        this.article.tags = this.tags;
         this.request.post({
             url:"/api/article/save",
             data:this.article
