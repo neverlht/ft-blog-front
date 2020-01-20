@@ -1,4 +1,6 @@
 <style scoped>
+  .container{
+  }
   .header{
     height: 60px;
     background: #fffbf0;
@@ -75,7 +77,7 @@
 
 
 <template>
-  <div>
+  <div class="container">
     <Affix>
       <div class="header">
           <div class="header-logo">
@@ -109,16 +111,21 @@
       </div>
     </Affix>
     <div class="content">
-      <i-col span="16" offset="4">
+      <i-col span="14" offset="5">
         <router-view/>
+      </i-col>
+      <i-col span="5">
+        <Tags :tags="['java','cms','blog','日志']"></Tags>
       </i-col>
     </div>
   </div>
 </template>
 
 <script>
+import Tags from "./index/tags.vue"
 export default {
   name: 'Index',
+  components:{Tags},
   data () {
     return {
       msg: 'lj520',

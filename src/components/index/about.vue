@@ -59,7 +59,7 @@
 
 <script type="text/babel">
 export default {
-    name: 'home',
+    name: 'about',
   data () {
     return {
     }

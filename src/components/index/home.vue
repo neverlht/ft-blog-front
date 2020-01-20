@@ -1,4 +1,7 @@
 <style scoped>
+  .container{
+  }
+
   .time{
     padding-bottom: 10px;
   }
