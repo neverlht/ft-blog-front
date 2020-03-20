@@ -23,7 +23,14 @@
               标签墙
             </p>
             <div class="content" ref="content">
-                <div class="item" v-for="tag,index in tags" :style="getRandomStyle(index)">{{tag}}</div>
+                <!--<div class="item" v-for="tag,index in tags" :style="getRandomStyle(index)">{{tag}}</div>-->
+                <Row class="item-row">
+                    <i-col span="4"></i-col>
+                    <i-col span="5"></i-col>
+                    <i-col span="6"></i-col>
+                    <i-col span="5"></i-col>
+                    <i-col span="4"></i-col>
+                </Row>
             </div>
           </Card>
       </div>
@@ -70,11 +77,10 @@ export default {
       return "color:"+this.colors[random]+";font-size:"+fontSize+"px;";
     },
     getRandomStyle(index){
-        debugger
-        let w = this.$refs['content'].width;
-        let h = this.$refs['content'].height;
-        console.log(w);
-        console.log(h);
+        // let w = this.$refs['content'].offsetX;
+        // let h = this.$refs['content'].offsetY;
+        // console.log(w);
+        // console.log(h);
         return "";
     }
   }

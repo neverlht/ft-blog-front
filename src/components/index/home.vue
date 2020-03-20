@@ -8,16 +8,22 @@
 
   .article{
     display: flex;
-    height: 125px;
+    height: 140px;
     border-bottom: 1px #efefef solid;
   }
 
-  .article-img{
-    padding: 0px 24px 10px 10px;
+  .article-img-parent{
+    padding: 8px;
   }
 
-  .article-img > img{
+  .article-img-parent .article-img{
+    padding: 0;
     width: 180px;
+  }
+
+  .article-img-parent .article-img > img{
+    width: 180px;
+    max-height: 100px;
   }
 
   .article-content{
@@ -34,7 +40,8 @@
     cursor: pointer;
   }
   .article-summary{
-
+    padding-bottom: 2px;
+    min-height: 50px;
   }
   .article-tag{
 
@@ -51,8 +58,10 @@
           <TimelineItem v-for="item in list">
             <p class="time">{{item.writeDate}}</p>
             <div class="article">
-              <div class="article-img" v-if="item.img">
-                <img :src="item.img" alt="">
+              <div class="article-img-parent">
+                <div class="article-img" v-if="item.img">
+                  <img :src="item.img" alt="">
+                </div>
               </div>
               <div class="article-content">
                 <div class="article-title" @click="gotoArticle(item.id)">{{item.title}}</div>

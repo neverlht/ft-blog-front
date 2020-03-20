@@ -3,6 +3,9 @@
     z-index: 899;
     height: 540px;
   }
+    .ivu-form-item{
+        margin-bottom: 10px;
+    }
 </style>
 
 
@@ -17,7 +20,7 @@
           <Button slot="append" icon="md-add" @click="addTag" style="height: 32px;"></Button>
         </i-input>
       </FormItem>
-      <div style="margin-bottom: 24px;vertical-align: top;">
+      <div style="margin-bottom: 5px;vertical-align: top;">
         <Tag v-for="(tag,index) in tags" :key="index" :name="tag" closable @on-close="delTag(index)">{{tag}}</Tag>
       </div>
       <FormItem label="分类">
@@ -25,7 +28,7 @@
           <Option v-for="category in categoryList" :value="category.code">{{category.name}}</Option>
         </Select>
       </FormItem>
-      <mavon-editor ref="mdEditor" class="content-editor" :value="article.textMd" @imgAdd="imgAddByServer" @save="save"/>
+      <mavon-editor ref="mdEditor" class="content-editor" :style="'height:'+editHeight+'px'" :value="article.textMd" @imgAdd="imgAddByServer" @save="save"/>
       <div style="margin-top: 10px;text-align: right">
         <Button type="success" @click="publish">发布</Button>
       </div>
@@ -38,6 +41,7 @@
 export default {
   data () {
     return {
+      editHeight:0,
       img_file:{},
       currentTag:'',
       article:{
@@ -58,6 +62,8 @@ export default {
         this.loadData();
         this.loadTagData();
     }
+    this.editHeight = (document.documentElement.clientHeight || document.body.clientHeight)-300;
+    console.log(this.editHeight)
   },
   methods:{
     loadCategory(){

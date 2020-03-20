@@ -115,7 +115,7 @@
         <router-view/>
       </i-col>
       <i-col span="5">
-        <Tags :tags="['java','cms','blog','日志']"></Tags>
+        <!--<Tags :tags="['java','cms','blog','日志']"></Tags>-->
       </i-col>
     </div>
   </div>
