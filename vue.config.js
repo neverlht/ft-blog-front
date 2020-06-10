@@ -25,7 +25,8 @@ module.exports = {
     devServer: {
         proxy: {
             "/api": {
-                target: "http://127.0.0.1:8080/api",
+                // target: "http://127.0.0.1:8080/api",
+                target: "http://47.97.187.15/api",
                 changeOrigin: true, // 是否改变域名
                 ws: true,
                 pathRewrite: {
@@ -34,12 +35,13 @@ module.exports = {
                 }
             },
             "/display": {
-                target: "http://127.0.0.1:8080/display",
+                // target: "http://127.0.0.1:8080/display",
+                target: "http://47.97.187.15/display",
                 changeOrigin: true, // 是否改变域名
                 ws: true,
                 pathRewrite: {
                     // 路径重写
-                    "/display": "" // 这个意思就是以api开头的，定向到哪里, 如果你的后边还有路径的话， 会自动拼接上
+                    "/display": "" // 这个意思就是以display开头的，定向到哪里, 如果你的后边还有路径的话， 会自动拼接上
                 }
             }
         }
